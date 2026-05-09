@@ -3,60 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/loginScreen">
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.minigroceryapp.ui.auth.LoginFragment"
+        android:id="@+id/loginScreen"
+        android:name="com.example.minigroceryapp.ui.auth.LoginScreen"
         android:label="Login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/screen_login" >
         <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/loginFragment"
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/homeScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/loginScreen"
             app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.minigroceryapp.ui.home.HomeFragment"
+        android:id="@+id/homeScreen"
+        android:name="com.example.minigroceryapp.ui.home.HomeScreen"
         android:label="Home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/screen_home" >
         <action
-            android:id="@+id/action_homeFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+            android:id="@+id/action_home_to_cart"
+            app:destination="@id/cartScreen"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
 
     <fragment
-        android:id="@+id/cartFragment"
-        android:name="com.example.minigroceryapp.ui.cart.CartFragment"
+        android:id="@+id/cartScreen"
+        android:name="com.example.minigroceryapp.ui.cart.CartScreen"
         android:label="Cart"
-        tools:layout="@layout/fragment_cart" >
+        tools:layout="@layout/screen_cart" >
         <action
-            android:id="@+id/action_cartFragment_to_checkoutFragment"
-            app:destination="@id/checkoutFragment" />
+            android:id="@+id/action_cart_to_checkout"
+            app:destination="@id/checkoutScreen"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
 
     <fragment
-        android:id="@+id/checkoutFragment"
-        android:name="com.example.minigroceryapp.ui.checkout.CheckoutFragment"
+        android:id="@+id/checkoutScreen"
+        android:name="com.example.minigroceryapp.ui.checkout.CheckoutScreen"
         android:label="Checkout"
-        tools:layout="@layout/fragment_checkout" >
+        tools:layout="@layout/screen_checkout" >
         <action
-            android:id="@+id/action_checkoutFragment_to_orderSuccessFragment"
-            app:destination="@id/orderSuccessFragment"
-            app:popUpTo="@id/homeFragment" />
+            android:id="@+id/action_checkout_to_orderSuccess"
+            app:destination="@id/orderSuccessScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:popUpTo="@id/homeScreen" />
     </fragment>
 
     <fragment
-        android:id="@+id/orderSuccessFragment"
-        android:name="com.example.minigroceryapp.ui.checkout.OrderSuccessFragment"
+        android:id="@+id/orderSuccessScreen"
+        android:name="com.example.minigroceryapp.ui.checkout.OrderSuccessScreen"
         android:label="Order Success"
-        tools:layout="@layout/fragment_order_success" >
+        tools:layout="@layout/screen_order_success" >
         <action
-            android:id="@+id/action_orderSuccessFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
+            android:id="@+id/action_orderSuccess_to_home"
+            app:destination="@id/homeScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:popUpTo="@id/homeScreen"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -7,19 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.minigroceryapp.R
-import com.example.minigroceryapp.databinding.FragmentOrderSuccessBinding
+import com.example.minigroceryapp.databinding.ScreenOrderSuccessBinding
 import kotlin.random.Random
 
-class OrderSuccessFragment : Fragment() {
+/**
+ * OrderSuccessScreen: Shows confirmation after order placement.
+ */
+class OrderSuccessScreen : Fragment() {
 
-    private var _binding: FragmentOrderSuccessBinding? = null
+    private var _binding: ScreenOrderSuccessBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOrderSuccessBinding.inflate(inflater, container, false)
+        _binding = ScreenOrderSuccessBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -30,7 +33,7 @@ class OrderSuccessFragment : Fragment() {
         binding.tvOrderId.text = "Order ID: $orderId"
         
         binding.btnHome.setOnClickListener {
-            findNavController().navigate(R.id.action_orderSuccessFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_orderSuccess_to_home)
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.minigroceryapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.minigroceryapp.data.model.Product
 import com.example.minigroceryapp.databinding.ItemCartBinding
 
@@ -23,6 +24,12 @@ class CartAdapter(
         holder.binding.tvName.text = product.name
         holder.binding.tvPrice.text = "₹${product.price * product.quantity}"
         holder.binding.tvQty.text = product.quantity.toString()
+
+        // Load image using Glide
+        Glide.with(holder.itemView.context)
+            .load(product.image)
+            .placeholder(android.R.drawable.ic_menu_gallery)
+            .into(holder.binding.ivProduct)
 
         holder.binding.btnPlus.setOnClickListener {
             onUpdateQty(product.id, 1)

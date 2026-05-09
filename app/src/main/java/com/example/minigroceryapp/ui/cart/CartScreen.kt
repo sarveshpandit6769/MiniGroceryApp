@@ -10,32 +10,29 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.minigroceryapp.R
 import com.example.minigroceryapp.adapter.CartAdapter
-import com.example.minigroceryapp.databinding.FragmentCartBinding
+import com.example.minigroceryapp.databinding.ScreenCartBinding
 import com.example.minigroceryapp.ui.MainViewModel
 
 /**
- * CartFragment: Shows added items and handles quantity updates.
+ * CartScreen: Enhanced with Bill Details and professional checkout bar.
  */
-class CartFragment : Fragment() {
+class CartScreen : Fragment() {
 
-    private var _binding: FragmentCartBinding? = null
+    private var _binding: ScreenCartBinding? = null
     private val binding get() = _binding!!
-    
-    // Shared ViewModel to access the same cart data
     private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCartBinding.inflate(inflater, container, false)
+        _binding = ScreenCartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize adapter with an empty list and a callback for quantity changes
         val adapter = CartAdapter(emptyList()) { productId, delta ->
             viewModel.updateQuantity(productId, delta)
         }
@@ -43,17 +40,32 @@ class CartFragment : Fragment() {
         binding.rvCartItems.layoutManager = LinearLayoutManager(context)
         binding.rvCartItems.adapter = adapter
 
-        // OBSERVE changes in the cart. Every time an item is added or changed, this block runs.
+        // Observer for dynamic bill updates
         viewModel.cartItems.observe(viewLifecycleOwner) { items ->
-            adapter.updateData(items) // Refresh the list
-            binding.tvTotalAmount.text = "₹${viewModel.getTotalAmount()}" // Refresh the total bill
+            adapter.updateData(items)
+            val total = viewModel.getTotalAmount()
+            
+            binding.tvItemTotal.text = "₹$total"
+            binding.tvTotalAmount.text = "₹$total"
+            binding.tvPayAmount.text = "₹$total"
+            
+            // If cart is empty, optionally navigate back or show empty state
+            if (items.isEmpty()) {
+                binding.btnCheckout.isEnabled = false
+                binding.btnCheckout.alpha = 0.5f
+            } else {
+                binding.btnCheckout.isEnabled = true
+                binding.btnCheckout.alpha = 1.0f
+            }
         }
 
-        // Proceed to Checkout
         binding.btnCheckout.setOnClickListener {
-            if ((viewModel.cartItems.value?.size ?: 0) > 0) {
-                findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment)
-            }
+            findNavController().navigate(R.id.action_cart_to_checkout)
+        }
+        
+        binding.toolbar.setNavigationIcon(android.R.drawable.ic_menu_revert)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 

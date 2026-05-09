@@ -9,12 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.minigroceryapp.R
-import com.example.minigroceryapp.databinding.FragmentCheckoutBinding
+import com.example.minigroceryapp.databinding.ScreenCheckoutBinding
 import com.example.minigroceryapp.ui.MainViewModel
 
-class CheckoutFragment : Fragment() {
+/**
+ * CheckoutScreen: Final step before placing order.
+ */
+class CheckoutScreen : Fragment() {
 
-    private var _binding: FragmentCheckoutBinding? = null
+    private var _binding: ScreenCheckoutBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -22,7 +25,7 @@ class CheckoutFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCheckoutBinding.inflate(inflater, container, false)
+        _binding = ScreenCheckoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -33,7 +36,7 @@ class CheckoutFragment : Fragment() {
             val address = binding.etAddress.text.toString()
             if (address.isNotEmpty()) {
                 viewModel.clearCart()
-                findNavController().navigate(R.id.action_checkoutFragment_to_orderSuccessFragment)
+                findNavController().navigate(R.id.action_checkout_to_orderSuccess)
             } else {
                 Toast.makeText(context, "Please enter delivery address", Toast.LENGTH_SHORT).show()
             }

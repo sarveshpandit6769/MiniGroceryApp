@@ -1,50 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    android:layout_margin="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeColor="@color/background_grey"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="12dp">
 
         <ImageView
             android:id="@+id/ivProduct"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@android:drawable/ic_menu_gallery" />
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="Product Name"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
 
         <TextView
-            android:id="@+id/tvPrice"
+            android:id="@+id/tvCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="₹100"
-            android:textColor="@color/purple_700"
-            android:textSize="14sp" />
+            android:text="Category"
+            android:textColor="@color/text_grey"
+            android:textSize="11sp" />
 
-        <Button
-            android:id="@+id/btnAdd"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add"
-            android:layout_marginTop="8dp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="₹100"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdd"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:minWidth="60dp"
+                android:padding="0dp"
+                android:text="ADD"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:cornerRadius="8dp"
+                app:strokeColor="@color/primary" />
+        </RelativeLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

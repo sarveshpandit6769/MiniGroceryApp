@@ -1,44 +1,68 @@
 package com.example.minigroceryapp.ui
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.minigroceryapp.data.AppDatabase
 import com.example.minigroceryapp.data.model.Product
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+/**
+ * MainViewModel: Now integrated with Room Database for persistent storage.
+ */
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _cartItems = MutableLiveData<MutableList<Product>>(mutableListOf())
-    val cartItems: LiveData<MutableList<Product>> = _cartItems
+    private val cartDao = AppDatabase.getDatabase(application).cartDao()
+    
+    // Room returns LiveData that automatically updates when the database changes
+    val cartItems: LiveData<List<Product>> = cartDao.getAllItems()
 
+    /**
+     * Logic to add a product to the local database.
+     */
     fun addToCart(product: Product) {
-        val currentList = _cartItems.value ?: mutableListOf()
-        val existingProduct = currentList.find { it.id == product.id }
-        
-        if (existingProduct != null) {
-            existingProduct.quantity += 1
-        } else {
-            product.quantity = 1
-            currentList.add(product)
+        viewModelScope.launch {
+            val existingProduct = cartDao.getProductById(product.id)
+            if (existingProduct != null) {
+                existingProduct.quantity += 1
+                cartDao.insertOrUpdate(existingProduct)
+            } else {
+                product.quantity = 1
+                cartDao.insertOrUpdate(product)
+            }
         }
-        _cartItems.value = currentList
     }
 
+    /**
+     * Updates quantity in the database.
+     */
     fun updateQuantity(productId: Int, delta: Int) {
-        val currentList = _cartItems.value ?: return
-        val product = currentList.find { it.id == productId } ?: return
-        
-        product.quantity += delta
-        if (product.quantity <= 0) {
-            currentList.remove(product)
+        viewModelScope.launch {
+            val product = cartDao.getProductById(productId) ?: return@launch
+            
+            product.quantity += delta
+            if (product.quantity <= 0) {
+                cartDao.delete(product)
+            } else {
+                cartDao.insertOrUpdate(product)
+            }
         }
-        _cartItems.value = currentList
     }
 
+    /**
+     * Clears the persistent cart.
+     */
     fun clearCart() {
-        _cartItems.value = mutableListOf()
+        viewModelScope.launch {
+            cartDao.clearCart()
+        }
     }
 
+    /**
+     * Calculates total amount from the current list.
+     */
     fun getTotalAmount(): Double {
-        return _cartItems.value?.sumOf { it.price * it.quantity } ?: 0.0
+        return cartItems.value?.sumOf { it.price * it.quantity } ?: 0.0
     }
 }

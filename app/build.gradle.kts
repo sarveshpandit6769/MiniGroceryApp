@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.example.minigroceryapp"
-    compileSdk = 37
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.minigroceryapp"
@@ -48,7 +49,7 @@ dependencies {
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    // kapt(libs.androidx.room.compiler) // Temporarily commented out
+    ksp(libs.androidx.room.compiler)
     
     // Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -56,7 +57,6 @@ dependencies {
     
     // Glide
     implementation(libs.glide)
-    // kapt(libs.glide.compiler) // Temporarily commented out
     
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
